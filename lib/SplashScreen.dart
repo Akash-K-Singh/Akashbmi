@@ -1,24 +1,28 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:mybmi/LoginScreen.dart';
+
 import 'package:mybmi/HomeScreen.dart';
+
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
-  State<SplashScreen> createState() => _SplashScreenState();
+  State<SplashScreen> createState() => SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class SplashScreenState extends State<SplashScreen> {
+
+  static const String KEYLOGIN = "login";
+  static const String NAME = "";
+  static const String GENDER = "";
+
   @override
   void initState() {
     super.initState();
 
-    Timer(Duration(seconds: 3), () {
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-              builder: (context) => MyHomePage(title: 'Calculate your BMI')));
-    });
+    whereToGo();
   }
 
   @override
@@ -32,4 +36,29 @@ class _SplashScreenState extends State<SplashScreen> {
       ),
     );
   }
+
+  void whereToGo()async{
+    var sharePref  = await SharedPreferences.getInstance();
+    var isLoggedIn = sharePref.getBool(KEYLOGIN);
+
+    if(isLoggedIn!=null){
+      if(isLoggedIn){
+        Timer(Duration(seconds: 2), () {
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => MyHomePage(title: 'Calculate your BMI')));
+    });
+      } else {
+        Timer(Duration(seconds: 2), () {
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => LoginScreen()));
+    });
+      }
+    } else {
+      Timer(Duration(seconds: 2), () {
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => LoginScreen()));
+    });
+    }
+  }
+
 }

@@ -3,6 +3,8 @@ import 'package:mybmi/BmiDataModel.dart';
 import 'package:mybmi/DBHandler.dart';
 import 'package:mybmi/HistoryScreen.dart';
 import 'package:mybmi/InfoScreen.dart';
+import 'package:mybmi/SplashScreen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -10,10 +12,10 @@ class MyHomePage extends StatefulWidget {
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<MyHomePage> createState() => MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class MyHomePageState extends State<MyHomePage> {
   var wtController = TextEditingController();
   var ftController = TextEditingController();
   var inController = TextEditingController();
@@ -30,11 +32,14 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
     dbHelper = DBHelper();
     loadData();
+    getName();
   }
 
   loadData() async {
     bmiDataList = dbHelper!.getBmiDataList();
   }
+
+  String userName = "";
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
-                  "Welcome",
+                  "Welcome $userName",
                   style: TextStyle(
                       color: Colors.green,
                       fontWeight: FontWeight.bold,
@@ -344,5 +349,12 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
     );
+  }
+
+  void getName()async{
+    var sharePref = await SharedPreferences.getInstance();
+    setState(() { 
+      userName = sharePref.getString('name')?? "";
+    });
   }
 }
