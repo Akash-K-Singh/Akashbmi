@@ -13,10 +13,7 @@ class SplashScreen extends StatefulWidget {
 }
 
 class SplashScreenState extends State<SplashScreen> {
-
   static const String KEYLOGIN = "login";
-  static const String NAME = "";
-  static const String GENDER = "";
 
   @override
   void initState() {
@@ -37,28 +34,30 @@ class SplashScreenState extends State<SplashScreen> {
     );
   }
 
-  void whereToGo()async{
-    var sharePref  = await SharedPreferences.getInstance();
+  void whereToGo() async {
+    var sharePref = await SharedPreferences.getInstance();
     var isLoggedIn = sharePref.getBool(KEYLOGIN);
 
-    if(isLoggedIn!=null){
-      if(isLoggedIn){
+    if (isLoggedIn != null) {
+      if (isLoggedIn) {
         Timer(Duration(seconds: 2), () {
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => MyHomePage(title: 'Calculate your BMI')));
-    });
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      MyHomePage(title: 'Calculate your BMI')));
+        });
       } else {
         Timer(Duration(seconds: 2), () {
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => LoginScreen()));
-    });
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (context) => LoginScreen()));
+        });
       }
     } else {
       Timer(Duration(seconds: 2), () {
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => LoginScreen()));
-    });
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => LoginScreen()));
+      });
     }
   }
-
 }

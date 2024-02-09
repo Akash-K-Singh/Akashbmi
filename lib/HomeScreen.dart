@@ -3,7 +3,6 @@ import 'package:mybmi/BmiDataModel.dart';
 import 'package:mybmi/DBHandler.dart';
 import 'package:mybmi/HistoryScreen.dart';
 import 'package:mybmi/InfoScreen.dart';
-import 'package:mybmi/SplashScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -351,10 +350,10 @@ class MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  void getName()async{
+  void getName() async {
     var sharePref = await SharedPreferences.getInstance();
-    setState(() { 
-      userName = sharePref.getString('name')?? "";
+    setState(() {
+      userName = sharePref.getString('name') ?? "";
     });
   }
 }
